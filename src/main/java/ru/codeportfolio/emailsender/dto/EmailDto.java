@@ -1,8 +1,8 @@
-package ru.codeportfolio.emailsender;
+package ru.codeportfolio.emailsender.dto;
 
 public record EmailDto (
         String email,
-        String username,
+        String header,
         String text
 ) {
 }
