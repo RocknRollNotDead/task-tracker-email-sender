@@ -17,9 +17,11 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
+    @Value("${kafka.group-id}")
+    public String groupId;
 
     public final String kafkaUrl;
-    public static final String GROUP_ID_KAFKA = "id";
+
 
     public KafkaConsumerConfig(@Value("${kafka.url}") String kafkaUrl) {
         this.kafkaUrl = kafkaUrl;
@@ -29,7 +31,7 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, String> consumerFactory(){
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
-        config.put(ConsumerConfig.GROUP_ID_CONFIG, GROUP_ID_KAFKA);
+        config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
 
         return new DefaultKafkaConsumerFactory<>(
                 config,

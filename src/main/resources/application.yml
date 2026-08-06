@@ -18,3 +18,4 @@ spring:
 
 kafka:
   url: ${LOCALHOST:kafka}:9092
+  group-id: id
