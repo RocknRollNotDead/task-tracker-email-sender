@@ -15,7 +15,7 @@ public class KafkaConsumer {
     }
 
 
-    @KafkaListener(topics = "EMAIL_SENDING_TASKS")
+    @KafkaListener(topics = "EMAIL_SENDING_TASKS", groupId = "id")
     public void consume(String json){
         ObjectMapper mapper = new ObjectMapper();
         EmailDto emailDto = mapper.readValue(json, EmailDto.class);

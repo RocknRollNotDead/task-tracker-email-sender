@@ -1,10 +1,12 @@
 package ru.codeportfolio.emailsender.service;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import ru.codeportfolio.emailsender.dto.EmailDto;
 
+@Slf4j
 @Service
 public class EmailService {
 
@@ -25,6 +27,7 @@ public class EmailService {
         message.setSubject(emailDto.header());
         message.setText(emailDto.text());
 
+        log.info("Send mail {} to {}", emailDto.header(), emailDto.email());
         mailSender.send(message);
     }
 

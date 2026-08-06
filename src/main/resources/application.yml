@@ -17,4 +17,4 @@ spring:
             enable: true
 
 kafka:
-  url: ${LOCALHOST:kafka}
+  url: ${LOCALHOST:kafka}:9092
