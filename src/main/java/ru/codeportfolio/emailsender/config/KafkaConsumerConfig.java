@@ -9,6 +9,8 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.DefaultErrorHandler;
+import org.springframework.util.backoff.FixedBackOff;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,11 +34,13 @@ public class KafkaConsumerConfig {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        config.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        config.put(ConsumerConfig.CLIENT_ID_CONFIG, "email-sender-consumer");
 
         return new DefaultKafkaConsumerFactory<>(
                 config,
                 new StringDeserializer(),
-                new StringDeserializer()
+                new StringDeserializer() // переделаю на protobuf после изучения кафки, сейчас важна читаемость
         );
     }
 
@@ -48,6 +52,13 @@ public class KafkaConsumerConfig {
         containerFactory.setConcurrency(1);
         containerFactory.setConsumerFactory(consumerFactory);
         return containerFactory;
+    }
+
+    @Bean
+    public DefaultErrorHandler errorHandler() {
+        return new DefaultErrorHandler(
+                new FixedBackOff(1000L, 3)
+        );
     }
 
 }
