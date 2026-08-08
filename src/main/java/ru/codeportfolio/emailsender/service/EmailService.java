@@ -12,6 +12,12 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
+    private final String FINAL_STRING =
+            """
+                    
+                    Не отвечайте на это письмо.
+                    
+                    """;
 
     // слушает backend и слушает планировщик
 
