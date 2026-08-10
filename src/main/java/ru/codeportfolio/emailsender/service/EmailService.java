@@ -1,6 +1,7 @@
 package ru.codeportfolio.emailsender.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,15 @@ public class EmailService {
 
         message.setTo(emailDto.email());
         message.setSubject(emailDto.header());
-        message.setText(emailDto.text());
+        message.setText(emailDto.text() + FINAL_STRING);
 
-        log.info("Send mail {} to {}", emailDto.header(), emailDto.email());
-        mailSender.send(message);
+        try {
+            mailSender.send(message);
+            log.info("Send mail {} to {}", emailDto.header(), emailDto.email());
+        } catch (MailException e) {
+            log.error("Can't send mail to {}", emailDto.email());
+            throw e;
+        }
     }
 
 
