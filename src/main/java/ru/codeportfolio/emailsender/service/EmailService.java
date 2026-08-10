@@ -30,6 +30,7 @@ public class EmailService {
 
         SimpleMailMessage message = new SimpleMailMessage();
 
+        message.setFrom("tasker@codeportfolio.ru");
         message.setTo(emailDto.email());
         message.setSubject(emailDto.header());
         message.setText(emailDto.text() + FINAL_STRING);
