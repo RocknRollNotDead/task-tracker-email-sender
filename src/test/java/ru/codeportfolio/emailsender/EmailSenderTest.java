@@ -23,7 +23,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class EmailServiceTest {
+class EmailSenderTest {
 
     public static final String EMAIL = "1450989432@a.ru";
     public static final String HEADER = "Письмо тест";

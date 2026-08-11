@@ -16,6 +16,7 @@ public class EmailService {
     private final String FINAL_STRING =
             """
                     
+                    
                     Не отвечайте на это письмо.
                     
                     """;
