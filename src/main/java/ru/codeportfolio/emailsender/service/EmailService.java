@@ -27,7 +27,7 @@ public class EmailService {
         this.mailSender = mailSender;
     }
 
-    public void send(EmailDto emailDto){
+    public void send(EmailDto emailDto) {
 
         SimpleMailMessage message = new SimpleMailMessage();
 
@@ -44,8 +44,6 @@ public class EmailService {
             throw e;
         }
     }
-
-
 
 
 }

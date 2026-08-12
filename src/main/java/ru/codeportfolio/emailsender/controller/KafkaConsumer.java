@@ -1,6 +1,5 @@
 package ru.codeportfolio.emailsender.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import ru.codeportfolio.emailsender.dto.EmailDto;
@@ -11,16 +10,17 @@ import tools.jackson.databind.ObjectMapper;
 public class KafkaConsumer {
 
     private final EmailService emailService;
+    private final ObjectMapper objectMapper;
 
-    public KafkaConsumer(EmailService emailService) {
+    public KafkaConsumer(EmailService emailService, ObjectMapper objectMapper) {
         this.emailService = emailService;
+        this.objectMapper = objectMapper;
     }
 
 
     @KafkaListener(topics = "EMAIL_SENDING_TASKS")
-    public void consume(String json){
-        ObjectMapper mapper = new ObjectMapper();
-        EmailDto emailDto = mapper.readValue(json, EmailDto.class);
+    public void consume(String json) {
+        EmailDto emailDto = objectMapper.readValue(json, EmailDto.class);
         emailService.send(emailDto);
     }
 }

@@ -6,11 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.codeportfolio.emailsender.controller.KafkaConsumer;
 import ru.codeportfolio.emailsender.dto.EmailDto;
 import ru.codeportfolio.emailsender.service.EmailService;
@@ -18,7 +15,6 @@ import tools.jackson.databind.ObjectMapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -36,19 +32,16 @@ class EmailSenderTest {
     public static final String EMAIL2 = "214235@a.ru";
     public static final String HEAD_2 = "head2";
     public static final String TEXT2 = "ert346t";
-
+    private final ObjectMapper objectMapper = new ObjectMapper();
+    public EmailDto emailDto = new EmailDto(EMAIL, HEADER, TEXT);
     @Mock
     private JavaMailSender mailSender;
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    public EmailDto emailDto = new EmailDto(EMAIL, HEADER, TEXT);
-
     private KafkaConsumer kafkaConsumer;
 
     @BeforeEach
     void setUp() {
         EmailService emailService = new EmailService(mailSender);
-        kafkaConsumer = new KafkaConsumer(emailService);
+        kafkaConsumer = new KafkaConsumer(emailService, objectMapper);
     }
 
 

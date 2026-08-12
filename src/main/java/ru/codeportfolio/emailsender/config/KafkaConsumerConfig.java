@@ -19,10 +19,9 @@ import java.util.Map;
 @Configuration
 public class KafkaConsumerConfig {
 
+    private final String kafkaUrl;
     @Value("${kafka.group-id}")
-    public String groupId;
-
-    public final String kafkaUrl;
+    private String groupId;
 
 
     public KafkaConsumerConfig(@Value("${kafka.url}") String kafkaUrl) {
@@ -30,7 +29,7 @@ public class KafkaConsumerConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, String> consumerFactory(){
+    public ConsumerFactory<String, String> consumerFactory() {
         Map<String, Object> config = new HashMap<>();
         config.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaUrl);
         config.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
@@ -47,7 +46,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(
             ConsumerFactory<String, String> consumerFactory
-    ){
+    ) {
         var containerFactory = new ConcurrentKafkaListenerContainerFactory<String, String>();
         containerFactory.setConcurrency(1);
         containerFactory.setConsumerFactory(consumerFactory);

@@ -1,6 +1,6 @@
 package ru.codeportfolio.emailsender.dto;
 
-public record EmailDto (
+public record EmailDto(
         String email,
         String header,
         String text
